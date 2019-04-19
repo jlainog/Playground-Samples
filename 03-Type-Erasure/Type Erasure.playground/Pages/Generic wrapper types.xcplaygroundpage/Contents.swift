@@ -31,7 +31,7 @@ class RequestQueue<Response, Error: Swift.Error> {
     // types match our queue's generic types.
     func add<R: Request>(
         _ request: R,
-        handler: R.Handler
+        handler: @escaping R.Handler
         ) where R.Response == Response, R.Error == Error {
         // To perform our type erasure, we simply create an instance
         // of 'AnyRequest' and pass it the underlying request's

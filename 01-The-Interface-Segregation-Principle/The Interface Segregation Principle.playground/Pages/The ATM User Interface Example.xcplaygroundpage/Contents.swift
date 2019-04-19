@@ -94,12 +94,10 @@ extension DepositTransaction {
 
 func doSomething(_ deposit: DepositUI,
                  _ transfer: TransferUI) {}
-// VS
+//: VS
 func doSomethingElse(ui: DepositUI & TransferUI) {}
 
 //: Althouhgt the first one seems wrong knowing is going to be call like:
 let ui = MultipleInheritanceUI()
 doSomething(ui, ui)
 //: In the future it may be separated objects. From the point of view of the function that the interfaces are combined into a single object is not information that the function need to know.
-
-
