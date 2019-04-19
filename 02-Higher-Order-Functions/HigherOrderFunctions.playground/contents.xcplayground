@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<playground version='6.0' target-platform='ios' display-mode='rendered' executeOnSourceChanges='false'>
+<playground version='6.0' target-platform='ios' display-mode='rendered'>
     <pages>
         <page name='Intro'/>
         <page name='Map'/>
+        <page name='CompactMap'/>
+        <page name='FlatMap'/>
         <page name='Filter'/>
         <page name='reduce'/>
         <page name='Custom Functions'/>
