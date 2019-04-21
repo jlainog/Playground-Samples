@@ -65,7 +65,7 @@ struct Pair<A, B> {
 Pair<Bool, Three>.init(a: true, b: .one)
 // Bool * Three
 
-enum Never {}
+enum Zero {} // enum Never {}
 struct Unit {}
 
 Unit()
@@ -106,3 +106,118 @@ typealias RealHandler = Add<Bool, (Error, String?)>
 // Success
 // + Error * ErrorMessage
 // + Error
+
+
+//(Bool) -> Bool
+// true -> true
+// false -> false
+// true -> false
+// false -> true
+// 2^2 = 4
+
+// (Three) -> Bool
+
+// one -> true
+// two -> true
+// three -> true
+
+// one -> false
+// two -> false
+// three -> false
+
+// one -> true
+// two -> true
+// three -> false
+
+// one -> false
+// two -> false
+// three -> true
+
+// one -> true
+// two -> false
+// three -> false
+
+// one -> false
+// two -> true
+// three -> true
+
+// one -> false
+// two -> true
+// three -> false
+
+// one -> true
+// two -> false
+// three -> true
+
+// 2^3 = 8
+
+// (Bool) -> Three
+// true -> one
+// false -> one
+
+// true -> one
+// false -> two
+
+// true -> one
+// false -> three
+
+// true -> two
+// false -> two
+
+// true -> two
+// false -> one
+
+// true -> two
+// false -> three
+
+// true -> three
+// false -> three
+
+// true -> three
+// false -> one
+
+// true -> three
+// false -> two
+
+// 3^2 = 9
+
+// () -> Bool
+// () -> true
+// () -> false
+// 2^1 = 2
+
+// (Bool) -> Void
+// true -> ()
+// false -> ()
+// 1^2 = 1
+
+// () -> Never
+// 0^1 = 0
+func moreAbsurd() -> Never {
+    return fatalError() // stops execution
+}
+
+// (Never) -> ()
+// 1^0 = 1
+
+func absurd<A>(_ never: Never) -> A {
+    switch never {
+    }
+}
+
+extension Add {
+    func fold<C>(left: (A) -> C,
+                 right: (B) -> C) -> C {
+        switch self {
+        case let .left(a):
+            return left(a)
+        case let .right(b):
+            return right(b)
+        }
+    }
+}
+
+Add<Bool, Never>
+    .left(true)
+    .fold(left: { _ in "true" },
+          right: absurd)
