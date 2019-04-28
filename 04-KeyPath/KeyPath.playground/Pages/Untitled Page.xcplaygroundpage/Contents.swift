@@ -229,3 +229,44 @@ get(kp)(someUser)
 [someUser, someUser].map(get(kp))
 //: With this we no longer need to create versions of map, sort, filter ... to take a KeyPath as the argument, it just need to pass the get()
 
+//: lets say we need to check if a value has change after been assigned
+
+struct Configuration {
+    var isLoggedIn: Bool {
+        didSet {
+            propertyDidChange(from: oldValue,
+                              keyPath: \.isLoggedIn,
+                              do: save)
+        }
+    }
+    var requireSetup: Bool {
+        didSet {
+            property(\.requireSetup,
+                     didChangeFrom: oldValue,
+                     then: save)
+        }
+    }
+    
+    private func property<Value: Equatable>(_ keyPath:KeyPath<Configuration, Value>,
+                                            didChangeFrom oldValue: Value,
+                                            then block: () -> Void) {
+        get(keyPath)(self)
+        guard self[keyPath: keyPath] != oldValue else { return }
+        block()
+    }
+    
+    private func propertyDidChange<Value: Equatable>(from oldValue: Value,
+                                                     keyPath: KeyPath<Configuration, Value>,
+                                                     `do` block: () -> Void) {
+        guard self[keyPath: keyPath] != oldValue else { return }
+        block()
+    }
+    
+    private func save() { print("Did Save") }
+}
+
+var config = Configuration(isLoggedIn: true, requireSetup: false)
+config[keyPath: \Configuration.isLoggedIn]
+config.isLoggedIn.toggle()
+config.isLoggedIn.toggle()
+config.requireSetup.toggle()
