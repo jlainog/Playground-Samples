@@ -90,7 +90,7 @@ typealias handler = (Success: Bool?, Error?, ErrorMessage: String?)
 // Success * Error * ErrorMessage -> No
 // + Success * ErrorMessage -> No
 // + Error * ErrorMessage -> Si
-// + Success * ErrorMessage -> No
+// + Success * Error -> No
 // + Success -> Si
 // + Error -> Si
 // + ErrorMessage -> No
