@@ -10,5 +10,3 @@ import Foundation
  
  [Yet another pokemon example](https://www.natashatherobot.com/swift-type-erasure/)
  */
-
-//: [Next](@next)
