@@ -107,6 +107,44 @@ typealias RealHandler = Add<Bool, (Error, String?)>
 // + Error * ErrorMessage
 // + Error
 
+struct SignPermisions {
+    var isSignIn: Bool
+    var hasPermissions: Bool
+    var canEdit: Bool
+}
+// 2 * 2 * 2
+let permission = SignPermisions(isSignIn: true, hasPermissions: true, canEdit: true)
+if permission.isSignIn {
+    if permission.hasPermissions {
+        ///
+        if permission.canEdit {
+            ///
+        }
+        ///
+    } else {
+        ////
+    }
+} else {
+    ///
+}
+
+enum SignPermisionsEnum {
+    case isSignOut
+    case hasPermissions(canEdit: Bool)
+}
+// 1 + 2
+
+let permissionEnum = SignPermisionsEnum.hasPermissions(canEdit: true)
+
+switch permissionEnum {
+case .isSignOut: break
+    //
+case .hasPermissions(canEdit: let canEdit):
+    if canEdit {
+        /// 
+    }
+}
+
 
 //(Bool) -> Bool
 // true -> true
