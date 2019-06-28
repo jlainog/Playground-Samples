@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='ios' display-mode='raw'>
+    <pages>
+        <page name='Property Wrappers'/>
+        <page name='Implicit returns from single-expression functions'/>
+        <page name='Static and class subscripts'/>
+        <page name='Key Path Member Lookup'/>
+        <page name='SIMD additions'/>
+        <page name='String Gaps and Missing APIs'/>
+        <page name='Contiguous Strings'/>
+        <page name='Add an Array Initializer with Access to Uninitialized Storage'/>
+        <page name='Opaque Result Types'/>
+        <page name='Synthesize default values for the memberwise initializer'/>
+        <page name='Ordered Collection Diffing'/>
+        <page name='Expanding Swift Self to class members and value types '/>
+    </pages>
+</playground>
