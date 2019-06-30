@@ -1,16 +1,19 @@
-//: [Previous](@previous)
-
+//: A UIKit based Playground for presenting user interface
+  
 import SwiftUI
 import PlaygroundSupport
 
-struct ContentView : View {
-    var helloWorldTopContainer: some View {
+struct HelloWorldView: View {
+    var body: some View {
         HStack(alignment: .center, spacing: 0, content: {
             Text("Hello World").font(.title)
             Spacer()
             Text("Hola mundo").font(.title)
         }).padding([.leading, .trailing], 20)
     }
+}
+
+struct ContentView : View {
     
     var namesContainer: some View {
         HStack {
@@ -22,7 +25,8 @@ struct ContentView : View {
     
     var body: some View {
         VStack {
-            helloWorldTopContainer
+            HelloWorldView()
+            Divider()
             namesContainer
         }
     }
@@ -30,5 +34,3 @@ struct ContentView : View {
 
 // Present the view controller in the Live View window
 PlaygroundPage.current.liveView = UIHostingController(rootView: ContentView())
-
-//: [Next](@next)

@@ -1,7 +1,18 @@
+
+
+
+
+
+
+
+
 //: [Previous](@previous)
 import Foundation
+//: [state_and_data_flow](https://developer.apple.com/documentation/swiftui/state_and_data_flow)
 
-@propertyDelegate
+//: [binding](https://developer.apple.com/documentation/swiftui/binding)
+
+@propertyWrapper
 struct BBinding<Value> {
     private let getter: () -> Value
     private let setter: (Value) -> Void
@@ -32,17 +43,17 @@ Test1.intValue = 5
 Test1.intValue
 Test1._intValue
 Test1.$intValue.value
-/// $ is used to access the value property in a propertyWrapper/Delegate
+/// $ is used to access the value property in a propertyWrapper
 
+//: [bindingconvertible](https://developer.apple.com/documentation/swiftui/bindingconvertible)
 @dynamicMemberLookup protocol BBindingConvertible {
     associatedtype Value
     
     var binding: BBinding<Self.Value> { get }
     
-    //    subscript<Subject>(dynamicMember keyPath: WritableKeyPath<Value, Subject>)
-    //        -> BBinding<Subject> { get }
+    subscript<Subject>(dynamicMember keyPath: WritableKeyPath<Value, Subject>)
+        -> BBinding<Subject> { get }
 }
-
 extension BBindingConvertible {
     subscript<Subject>(dynamicMember keyPath: WritableKeyPath<Self.Value, Subject>)
         -> BBinding<Subject> {
@@ -52,6 +63,7 @@ extension BBindingConvertible {
             )
     }
 }
+
 extension BBinding: BBindingConvertible {
     var binding: BBinding<Value> { self }
 }
@@ -74,7 +86,8 @@ let nameBinding = Test2.$person.name
 nameBinding.value = "andres"
 Test2.person.name
 
-@propertyDelegate
+//: [state](https://developer.apple.com/documentation/swiftui/state)
+@propertyWrapper
 struct SState<Value>: BBindingConvertible {
     var value: Value
     var binding: BBinding<Value> = .init(getter: { value },
@@ -94,16 +107,5 @@ Test3.person.name
 
 let lastNameBinding = Test3.$person.lastName
 lastNameBinding.value = "Guerra"
-
-@_functionBuilder
-struct Builder {
-    static func buildBlock() -> Builder {
-        Builder()
-    }
-}
-
-Builder {
-    
-}
 
 //: [Next](@next)
