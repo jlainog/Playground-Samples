@@ -12,7 +12,7 @@ struct UserDefault<T> {
     let key: String
     let defaultValue: T
     
-    var value: T {
+    var wrappedValue: T {
         get { UserDefaults.standard.object(forKey: key) as? T ?? defaultValue }
         set { UserDefaults.standard.set(newValue, forKey: key) }
     }
@@ -35,8 +35,8 @@ struct Settings {
         }
     }
     
-    @UserDefault("UserLogged")
-    static var isLogged: Bool = false
+    @UserDefault("UserLogged", defaultValue: false)
+    static var isLogged: Bool
 }
 
 Settings.tokenTime
@@ -44,7 +44,7 @@ Settings.tokenTime = 10
 
 //:  use  the prefix $ to synthesize the storage property name
 Settings.$tokenTime.key
-Settings.$tokenTime.value
+Settings.$tokenTime.wrappedValue
 Settings.$tokenTime.defaultValue
 
 /*:
@@ -62,7 +62,7 @@ enum Lazy<Value> {
         self = .uninitialized(initialValue)
     }
     
-    var value: Value {
+    var wrappedValue: Value {
         mutating get {
             switch self {
             case .uninitialized(let initializer):
@@ -87,20 +87,20 @@ protocol Copyable: AnyObject {
 @propertyWrapper
 struct CopyOnWrite<Value: Copyable> {
     init(initialValue: Value) {
-        wrappedValue = initialValue
+        _value = initialValue
     }
     
-    private(set) var wrappedValue: Value
+    private(set) var _value: Value
     
-    var value: Value {
+    var wrappedValue: Value {
         mutating get {
-            if !isKnownUniquelyReferenced(&wrappedValue) {
-                wrappedValue = value.copy()
+            if !isKnownUniquelyReferenced(&_value) {
+                _value = _value.copy()
             }
-            return wrappedValue
+            return _value
         }
         set {
-            wrappedValue = newValue
+            _value = newValue
         }
     }
 }
@@ -108,26 +108,26 @@ struct CopyOnWrite<Value: Copyable> {
 //: "Clamping" a value within bounds
 @propertyWrapper
 struct Clamping<V: Comparable> {
-    var wrappedValue: V
+    var _value: V
     let min: V
     let max: V
     
     init(initialValue: V, min: V, max: V) {
-        wrappedValue = initialValue
+        _value = initialValue
         self.min = min
         self.max = max
-        assert(wrappedValue >= min && wrappedValue <= max)
+        assert(_value >= min && _value <= max)
     }
     
-    var value: V {
-        get { return wrappedValue }
+    var wrappedValue: V {
+        get { return _value }
         set {
             if newValue < min {
-                wrappedValue = min
+                _value = min
             } else if newValue > max {
-                wrappedValue = max
+                _value = max
             } else {
-                wrappedValue = newValue
+                _value = newValue
             }
         }
     }
@@ -155,7 +155,7 @@ struct Expirable<T> {
     private var isValid: Bool { now < expirationDate }
     
     let duration: TimeInterval
-    var value: T? {
+    var wrappedValue: T? {
         get { isValid ? concreteValue : nil }
         set {
             expirationDate = now.addingTimeInterval(duration)
@@ -191,7 +191,7 @@ struct AssertOnQueue<Value> {
         _expectedQueue = queue
     }
     
-    var value: Value {
+    var wrappedValue: Value {
         get {
             __dispatch_assert_queue(_expectedQueue)
             return _value
@@ -209,12 +209,12 @@ struct ThreadSafe<Value> {
     private var _value: Value
     private var queue: DispatchQueue
     
-    init(initialValue: Value, queue: DispatchQueue) {
+    init(initialValue: Value, queue: DispatchQueue = .main) {
         _value = initialValue
         self.queue = queue
     }
     
-    var value: Value {
+    var wrappedValue: Value {
         get {
             var concreteValue: Value?
             
@@ -231,5 +231,11 @@ struct ThreadSafe<Value> {
         }
     }
 }
+
+import UIKit
+@ThreadSafe var myproperty: UIView = UIView()
+
+@ThreadSafe(initialValue: .init(), queue: .global())
+var myproperty2: UIView
 
 //: [Next](@next)

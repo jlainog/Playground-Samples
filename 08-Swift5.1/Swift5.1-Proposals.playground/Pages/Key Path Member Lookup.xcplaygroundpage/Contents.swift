@@ -28,6 +28,7 @@ struct Box<T> {
 var rect = Rectangle(topLeft: .zero, bottomRight: .zero)
 var box = Box(value: rect)
 box.topLeft
+box[dynamicMember: \.topLeft]
 box.value.topLeft
 assert(box.topLeft == box.value.topLeft)
 
@@ -63,5 +64,5 @@ let json = JSON.DictionaryValue(dict)
 
 json.keyOne
 json.dict?.innerKey?.stringKey
-
+json[dynamicMember: "keyOne"]
 //: [Next](@next)
