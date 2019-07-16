@@ -8,6 +8,7 @@
 
 //: [Previous](@previous)
 
+import PlaygroundSupport
 import SwiftUI
 
 class AnalyticsBuilder {
@@ -58,6 +59,14 @@ struct StringBuilder {
     }
 }
 
+@StringBuilder
+func buildString() -> String {
+    "Some "
+    "Text "
+    "View"
+}
+buildString()
+
 func body(@StringBuilder values: () -> String) -> String { values() }
 
 var someBody = body {
@@ -80,7 +89,6 @@ let view = menuView {
     Text("Hola Mundo!")
 }
 
-//import PlaygroundSupport
 //PlaygroundPage.current.liveView = UIHostingController(rootView: view)
 
 @_functionBuilder
