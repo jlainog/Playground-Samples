@@ -2,8 +2,9 @@
 
 /*:
  # Property wrappers (formerly known as Property Delegates)
- Proposal: [SE-0258](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-delegates.md)
+ Proposal: [SE-0258](https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md)
  */
+
 
 import Foundation
 
@@ -21,6 +22,11 @@ struct UserDefault<T> {
         self.key = key
         self.defaultValue = defaultValue
         UserDefaults.standard.register(defaults: [key: defaultValue])
+    }
+
+    public var projectedValue: Self {
+      get { self }
+      set { self = newValue }
     }
 }
 
@@ -130,6 +136,11 @@ struct Clamping<V: Comparable> {
                 _value = newValue
             }
         }
+    }
+
+    public var projectedValue: Self {
+      get { self }
+      set { self = newValue }
     }
 }
 
