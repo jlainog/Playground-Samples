@@ -17,6 +17,8 @@ struct BBinding<Value> {
     private let getter: () -> Value
     private let setter: (Value) -> Void
     
+    var projectedValue: Self { self }
+    
     var wrappedValue: Value {
         get { getter() }
         nonmutating set { setter(newValue) }
@@ -34,16 +36,16 @@ struct TestBinding {
     
     @BBinding(getter: { _intValue },
               setter: { _intValue = $0 })
-    static var intValue: Int
+    static var myValue: Int
 }
 
-TestBinding.intValue = 10
+TestBinding.myValue = 10
 TestBinding._intValue
-TestBinding.intValue = 5
-TestBinding.intValue
+TestBinding.myValue = 5
+TestBinding.myValue
 TestBinding._intValue
-TestBinding.$intValue.wrappedValue
-/// $ is used to access the value property in a propertyWrapper
+TestBinding.$myValue.wrappedValue
+/// $ is used to access the value property in a propertyWrapper -> For this to happen implement projectedValue
 
 //: [bindingconvertible](https://developer.apple.com/documentation/swiftui/bindingconvertible)
 @dynamicMemberLookup
@@ -76,18 +78,19 @@ struct TestBindingConvertible {
     
     @BBinding(getter: { _person },
               setter: { _person = $0 })
-    static var person: Person
+    static var myPerson: Person
 }
 
-let nameBinding = TestBindingConvertible.$person.name
+let nameBinding = TestBindingConvertible.$myPerson.name
 
 nameBinding.wrappedValue = "andres"
-TestBindingConvertible.person.name
+TestBindingConvertible.myPerson.name
 
 //: [state](https://developer.apple.com/documentation/swiftui/state)
 @propertyWrapper
 struct SState<Value> {
     var wrappedValue: Value
+    var projectedValue: Self { self }
     
     init(initialValue value: Value) {
         self.wrappedValue = value
