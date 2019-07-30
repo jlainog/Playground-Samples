@@ -2,8 +2,7 @@
 
 Playing with `@_functionBuilder` to create animations in a declarative way
 
-![Code](animationCodeImage.png "Code")
-![Video](animation.mov "Animation")
+<img src="animationCodeImage.png" width="500"> ![Video](animation.mov "Animation")
 
 ## References:
 
