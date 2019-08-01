@@ -86,19 +86,30 @@ let nameBinding = TestBindingConvertible.$myPerson.name
 nameBinding.wrappedValue = "andres"
 TestBindingConvertible.myPerson.name
 
-//: [state](https://developer.apple.com/documentation/swiftui/state)
+/*:
+ [state](https://developer.apple.com/documentation/swiftui/state)
+ 
+ [how does state mutate](https://forums.swift.org/t/why-i-can-mutate-state-var-how-does-state-property-wrapper-work-inside/27209/2)
+*/
 @propertyWrapper
 struct SState<Value> {
-    var wrappedValue: Value
+    private let storage = UnsafeMutablePointer<Value>.allocate(capacity: 1)
+    
+    var wrappedValue: Value {
+        get { storage.pointee }
+        nonmutating set { storage.pointee = newValue }
+    }
     var projectedValue: Self { self }
     
-    init(initialValue value: Value) {
-        self.wrappedValue = value
+    init(wrappedValue value: Value) {
+        storage.initialize(to: value)
     }
 }
 extension SState: BBindingConvertible {
-    var binding: BBinding<Value> = .init(getter: { wrappedValue },
-                                         setter: { wrappedValue = $0 })
+    var binding: BBinding<Value> {
+        .init(getter: { self.wrappedValue },
+              setter: { self.wrappedValue = $0 })
+    }
 }
 
 struct TestState {
@@ -109,7 +120,7 @@ struct TestState {
 TestState.person.lastName
 
 let lastNameBinding = TestState.$person.lastName
-lastNameBinding.value = "Guerra"
+lastNameBinding.wrappedValue = "Guerra"
 TestState.person.lastName
 
 //: [Next](@next)
