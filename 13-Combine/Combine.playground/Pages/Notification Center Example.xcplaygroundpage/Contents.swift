@@ -8,15 +8,10 @@ extension NotificationCenter {
     struct Publisher: Combine.Publisher {
         typealias Output = Notification
         typealias Failure = Never
+        
         let center: NotificationCenter
         let name: Notification.Name
         let object: Any?
-        
-        init(center: NotificationCenter, name: Notification.Name, object: Any? = nil) {
-            self.center = center
-            self.name = name
-            self.object = object
-        }
         
         func receive<S>(subscriber: S) where S : Subscriber, Failure == S.Failure, Output == S.Input {
             center.addObserver(forName: name,
@@ -34,6 +29,7 @@ extension NotificationCenter {
 extension Subscribers {
     final class MyAssign<Root, Input>: Subscriber, Cancellable {
         typealias Failure = Never
+        
         let object: Root
         let path: ReferenceWritableKeyPath<Root, Input>
         
@@ -58,9 +54,7 @@ extension Subscribers {
             }
         }
         
-        func cancel() {
-            
-        }
+        func cancel() {}
     }
 }
 
@@ -71,16 +65,11 @@ extension Publishers {
         public let upstream: Upstream
         public let transform: (Upstream.Output) -> Output
         
-        public func receive<S>(subscriber: S) where Output == S.Input, S : Subscriber, Upstream.Failure == S.Failure {
-        }
-        init(upstream: Upstream, transform: @escaping (Upstream.Output) -> Output) {
-            self.upstream = upstream
-            self.transform = transform
-        }
+        public func receive<S>(subscriber: S) where Output == S.Input, S : Subscriber, Upstream.Failure == S.Failure {}
     }
 }
 
-let merlin = Wizzard.init()
+let merlin = Wizzard()
 
 let gradePublisher = NotificationCenter.Publisher(center: .default, name: .change, object: merlin)
 let gradeSubscriber = Subscribers.MyAssign(object: merlin, keyPath: \.grade)
