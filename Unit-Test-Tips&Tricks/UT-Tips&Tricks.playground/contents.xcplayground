@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='ios' display-mode='raw'>
+    <pages>
+        <page name='MOCK-STUB-SPY'/>
+        <page name='Run XCTestCase'/>
+        <page name='Timer'/>
+        <page name='DispatchQueue'/>
+        <page name='Expectations'/>
+        <page name='URLSession'/>
+        <page name='Notifications'/>
+        <page name='External Classes'/>
+        <page name='UIApplication openURL'/>
+        <page name='CMPedometer'/>
+    </pages>
+</playground>
