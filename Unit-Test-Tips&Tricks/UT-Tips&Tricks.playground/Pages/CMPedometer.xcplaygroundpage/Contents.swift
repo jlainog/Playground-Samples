@@ -69,7 +69,7 @@ class PedometerManager {
             .map(UInt32.init)
             .map { CMError(rawValue: $0) }
         
-        self.isAuthorized = cmError.map { $0 == CMErrorMotionActivityNotAuthorized } ?? true
+        self.isAuthorized = cmError.map { $0 != CMErrorMotionActivityNotAuthorized } ?? true
     }
 }
 
@@ -139,8 +139,9 @@ class CMPedometerTests: XCTestCase {
     func testManager_whenDeniedAuth() {
         //given
         let expectation = keyValueObservingExpectation(for: sut!,
-                                                       keyPath:"isAutorized",
+                                                       keyPath: "isAuthorized",
                                                        expectedValue: false)
+
         mockPedometer.error = NSError(domain: CMErrorDomain,
                                       code: Int(CMErrorMotionActivityNotAuthorized.rawValue),
                                       userInfo: nil)

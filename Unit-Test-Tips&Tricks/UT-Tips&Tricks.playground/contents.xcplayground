@@ -11,5 +11,6 @@
         <page name='External Classes'/>
         <page name='UIApplication openURL'/>
         <page name='CMPedometer'/>
+        <page name='LocationMonitorObserver'/>
     </pages>
 </playground>

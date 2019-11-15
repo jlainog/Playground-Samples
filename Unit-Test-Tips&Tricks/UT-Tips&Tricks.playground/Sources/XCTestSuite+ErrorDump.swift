@@ -17,7 +17,7 @@ class TestObserver: NSObject, XCTestObservation {
     }
     
     func testCase(_ testCase: XCTestCase, didFailWithDescription description: String, inFile filePath: String?, atLine lineNumber: Int) {
-        errorMessages.append("Fatal error line \(lineNumber): \(description)\(testCase.name))")
+        errorMessages.append("❌ Fatal error line \(lineNumber): \(description)\(testCase.name))")
     }
     
     func testSuiteDidFinish(_ testSuite: XCTestSuite) {
@@ -36,7 +36,10 @@ extension XCTestSuite {
 
         super.run()
         
-        if let failureCount = testRun?.failureCount, failureCount > 0 {
+        if testRun?.hasSucceeded ?? false {
+            print("✅ All Tests Passed")
+        } else if let failureCount = testRun?.failureCount,
+            failureCount > 0 {
             dump(testObserver.errorMessages)
         }
     }

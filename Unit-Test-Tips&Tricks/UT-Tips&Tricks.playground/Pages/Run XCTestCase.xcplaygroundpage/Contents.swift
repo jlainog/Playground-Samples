@@ -13,7 +13,7 @@ class SomeTests: XCTestCase {
     var sut: Bool!
     
     override func setUp() {
-        sut = false
+        sut = true
     }
     override func tearDown() {
         sut = nil
@@ -46,7 +46,7 @@ class TestObserver: NSObject, XCTestObservation {
     }
     
     func testCase(_ testCase: XCTestCase, didFailWithDescription description: String, inFile filePath: String?, atLine lineNumber: Int) {
-        errorMessages.append("Fatal error line \(lineNumber): \(description)\(testCase.name))")
+        errorMessages.append("❌ Fatal error line \(lineNumber): \(description)\(testCase.name))")
     }
     
     func testSuiteDidFinish(_ testSuite: XCTestSuite) {
@@ -64,7 +64,10 @@ public extension XCTestSuite {
 
         super.run()
         
-        if let failureCount = testRun?.failureCount, failureCount > 0 {
+        if testRun?.hasSucceeded ?? false {
+            print("✅ All Tests Passed")
+        } else if let failureCount = testRun?.failureCount,
+            failureCount > 0 {
             dump(testObserver.errorMessages)
         }
     }
