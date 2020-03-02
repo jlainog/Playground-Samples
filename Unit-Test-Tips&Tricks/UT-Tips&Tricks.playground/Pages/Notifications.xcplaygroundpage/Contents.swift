@@ -43,7 +43,7 @@ class LocationProvider {
     }
     
     func notifyLocationChange() {
-        notificationCenter.post(name: .init("LocationChanged"), object: nil)
+        notificationCenter.post(name: .init("LocationChanged"), object: self)
     }
 }
 

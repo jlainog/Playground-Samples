@@ -47,7 +47,7 @@ class URLSessionTests: XCTestCase {
     func testSomeNetworkCall() {
         let data: Data = .init()
         MockURLProtocol.requestHandler = { request in
-            XCTAssertEqual(request.url, URL(string: "www.someApi.com"))
+            self.XCTAssertEqual(request.url, URL(string: "www.someApi.com"))
             return (.init(), data)
         }
         
@@ -81,7 +81,7 @@ class APILoaderTests: XCTestCase {
     func testSomeNetworkCall() {
         let data: Data = .init()
         URLSession.stub { request in
-            XCTAssertEqual(request.url, URL(string: "www.someApi.com"))
+            self.XCTAssertEqual(request.url, URL(string: "www.someApi.com"))
             return (.init(), data)
         }
         

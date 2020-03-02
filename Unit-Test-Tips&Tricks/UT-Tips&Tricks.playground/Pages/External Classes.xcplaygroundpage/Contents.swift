@@ -44,7 +44,7 @@ extension LocationProvider: LocationManagerDelegate {
         locationCheckCallback = nil
     }
 }
-extension LocationProvider: CLLocationManagerDelegate {
+extension CLLocationManagerDelegate where Self: LocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         locationManager(manager, didUpdateLocations: locations)
     }
@@ -76,7 +76,7 @@ class LocationProviderTests: XCTestCase {
         
         let completionExpectation = XCTestExpectation(description: "completionExpectation")
         provider.checkCurrentLocation { (isPointOfInterest) in
-            XCTAssertTrue(isPointOfInterest)
+            self.XCTAssertTrue(isPointOfInterest)
             completionExpectation.fulfill()
         }
         

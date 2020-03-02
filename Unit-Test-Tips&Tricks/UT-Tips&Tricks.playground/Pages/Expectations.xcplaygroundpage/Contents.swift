@@ -12,7 +12,7 @@ class ExampleTests: XCTestCase {
         task.retreivePage(for: url) { (data) in
             // Fulfill the expectation to indicate that the background task has finished successfully.
             expectation.fulfill()
-            XCTAssertNotNil(data, "No data was downloaded.")
+            self.XCTAssertNotNil(data, "No data was downloaded.")
 
         }
 

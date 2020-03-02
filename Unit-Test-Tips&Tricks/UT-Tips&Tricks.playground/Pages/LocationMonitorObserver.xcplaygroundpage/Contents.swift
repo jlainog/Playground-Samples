@@ -73,12 +73,20 @@ extension LocationMonitor: LocationManagerDelegate {
     }
 }
 
-class LocationObserverSpy: NSObject, LocationObserver {
+class LocationObserverSpy: Hashable, LocationObserver {
+    static func == (lhs: LocationObserverSpy, rhs: LocationObserverSpy) -> Bool {
+        lhs.lastKnownLocation === rhs.lastKnownLocation
+    }
+    
     var didCallUpdate = false
     var lastKnownLocation: CLLocation?
     func didUpdateLocations(_ locations: [CLLocation]) {
         didCallUpdate = true
         lastKnownLocation = locations.first
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        lastKnownLocation.hash(into: &hasher)
     }
 }
 class MockLocationManager: LocationManager {
