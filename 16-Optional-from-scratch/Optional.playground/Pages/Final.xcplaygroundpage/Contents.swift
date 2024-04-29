@@ -1,5 +1,7 @@
 //: [Previous](@previous)
 
+import Foundation
+
 private func emoji(for bool: Bool) -> Character {
     return bool ? "✅" : "❌"
 }
@@ -195,5 +197,25 @@ emoji(for: none == Optional<Int>(nil))
 emoji(for: some != none)
 emoji(for: some == Optional<Int>(42))
 emoji(for: some != Optional<Int>(41))
+
+/*
+ ************
+ Nil-Coalescing
+ ************
+ */
+
+infix operator ❓❓
+func ❓❓<Wrapped>(optional: Optional<Wrapped>, default: @autoclosure () -> Wrapped) -> Wrapped {
+    switch optional {
+    case .some(let value):
+        return value
+    case .none:
+       return `default`()
+    }
+}
+
+let result4 = some ❓❓ 50
+let result5 = none ❓❓ 50
+
 
 //: [Next](@next)
